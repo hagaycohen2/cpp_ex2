@@ -22,8 +22,19 @@ class Graph {
     size_t vertices;
     size_t edges;
 
+    /**
+     * update the edges of the graph by the given function
+    */
     void edgesUpdate(function<int(int)> func);
+
+    /**
+     * update the edges of the graph by the given function and the given graph
+    */
     void edgesUpdate(Graph& graph, function<int(int, int)> func);
+
+    /**
+     * multiply two matrices without tuching the diagonal
+    */
     vector<vector<int>> matrixMult(vector<vector<int>>& a, vector<vector<int>>& b);
 
    public:
@@ -39,48 +50,78 @@ class Graph {
 
     // operators
 
-    // Graph& operator=(const Graph &other);
-
+    // unary + operator
     Graph& operator+() { return *this; };
+
+    // binary + operator
     Graph operator+(const Graph& other);
+
+    // self assignment + operator
     Graph& operator+=(const Graph& other) { return *this = *this + other; }
+
+    // unary - operator
     Graph operator-() { return *this * -1; };
+
+    // binary - operator
     Graph operator-(Graph& other) { return *this + -other; };
+
+    // self assignment - operator
     Graph& operator-=(Graph& other) { return *this = *this - other; };
 
+    // comparison operators
+
+
     bool operator>(Graph& other);
+
     bool operator<(Graph& other) { return other > *this; };
+
     bool operator==(Graph& other) { return !(*this > other) && !(*this < other); };
+
     bool operator!=(Graph& other) { return !(*this == other); };
+
     bool operator>=(Graph& other) { return *this > other || *this == other; };
+
     bool operator<=(Graph& other) { return *this < other || *this == other; };
 
-    Graph operator++() {
+
+    // increment and decrement operators
+
+    Graph operator++() { // prefix
         this->edgesUpdate([](int x) { return x + 1; });
         Graph temp = *this;
         return temp;
     };
-    Graph operator++(int) {
+    Graph operator++(int) { // postfix
         Graph temp = *this;
         *this = ++*this;
         return temp;
     };
-    Graph operator--() {
+    Graph operator--() { // prefix
         this->edgesUpdate([](int x) { return x - 1; });
         Graph temp = *this;
         return *this;
     };
-    Graph operator--(int) {
+    Graph operator--(int) { // postfix
         Graph temp = *this;
         *this = --*this;
         return temp;
     };
 
+    // multiplication operators
+
+    // scalar multiplication
     Graph operator*(int scalar);
+
+    // self assignment scalar multiplication
     Graph& operator*=(int scalar) { return *this = *this * scalar; };
 
+    // matrix multiplication of two graphs
     Graph operator*(Graph& other);
 
+
+    // friend functions
+
+    // overload the << operator to print the graph
     friend ostream& operator<<(ostream& os, Graph& graph);
 };
 }  // namespace hagay

@@ -1,3 +1,8 @@
+/**
+ * Author: Hagay Cohen : *****6180
+ * Email: hagaycohen2@gmail.com
+ */
+
 #include "Algorithms.hpp"
 #include "Graph.hpp"
 #include "doctest.h"
@@ -241,7 +246,7 @@ TEST_CASE("Test graph ++ , --") {
 
         hagay::Graph g2;
         g2 = g1++;
-      
+
         CHECK(g2.getMatrix() == expectedGraph);
 
         hagay::Graph g3;
@@ -265,7 +270,7 @@ TEST_CASE("Test graph ++ , --") {
 
         hagay::Graph g2;
         g2 = g1--;
-      
+
         CHECK(g2.getMatrix() == expectedGraph);
 
         hagay::Graph g3;

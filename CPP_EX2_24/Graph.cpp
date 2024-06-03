@@ -180,6 +180,29 @@ bool Graph::operator>(Graph &other) {
     return false;
 }
 
+
+ Graph Graph::operator++() { // prefix
+        this->edgesUpdate([](int x) { return x + 1; });
+        Graph temp = *this;
+        return temp;
+    };
+    Graph Graph::operator++(int) { // postfix
+        Graph temp = *this;
+        *this = ++*this;
+        return temp;
+    };
+    Graph Graph::operator--() { // prefix
+        this->edgesUpdate([](int x) { return x - 1; });
+        Graph temp = *this;
+        return *this;
+    };
+    Graph Graph::operator--(int) { // postfix
+        Graph temp = *this;
+        *this = --*this;
+        return temp;
+    };
+
+
 /**
  * overload the * operator to multiply the graph by a scalar
  * return the new graph

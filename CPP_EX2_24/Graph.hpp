@@ -86,26 +86,14 @@ class Graph {
 
     // increment and decrement operators
 
-    Graph operator++() { // prefix
-        this->edgesUpdate([](int x) { return x + 1; });
-        Graph temp = *this;
-        return temp;
-    };
-    Graph operator++(int) { // postfix
-        Graph temp = *this;
-        *this = ++*this;
-        return temp;
-    };
-    Graph operator--() { // prefix
-        this->edgesUpdate([](int x) { return x - 1; });
-        Graph temp = *this;
-        return *this;
-    };
-    Graph operator--(int) { // postfix
-        Graph temp = *this;
-        *this = --*this;
-        return temp;
-    };
+    Graph operator++() ; // prefix
+       
+    Graph operator++(int) ; // postfix
+       
+    Graph operator--() ; // prefix
+       
+    Graph operator--(int) ; // postfix
+       
 
     // multiplication operators
 

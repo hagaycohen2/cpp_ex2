@@ -69,7 +69,6 @@ void Algorithms::DFS_parents_visit(Graph &graph, size_t src, vector<int> &visite
     visited[src] = BLACK;
 }
 
-
 /**
  * this function will return the back edge in the graph
  * the function will use DFS algorithm to find the back edge
@@ -111,6 +110,9 @@ vector<int> Algorithms::BellmanFord(Graph &graph, size_t src) {
         for (size_t j = 0; j < graph.getVertices(); j++) {
             for (size_t k = 0; k < graph.getVertices(); k++) {
                 if (graph.getMatrix()[j][k] != 0) {
+                    if (dist[j] == INT_MAX) {
+                        continue;
+                    }
                     if (dist[j] + graph.getMatrix()[j][k] < dist[k]) {
                         dist[k] = dist[j] + graph.getMatrix()[j][k];
                         parents[k] = j;
@@ -122,6 +124,9 @@ vector<int> Algorithms::BellmanFord(Graph &graph, size_t src) {
     for (size_t j = 0; j < graph.getVertices(); j++) {
         for (size_t k = 0; k < graph.getVertices(); k++) {
             if (graph.getMatrix()[j][k] != 0) {
+                if (dist[j] == INT_MAX) {
+                    continue;
+                }
                 if (dist[j] + graph.getMatrix()[j][k] < dist[k]) {
                     parents[k] = j;
                     throw negativeCycleException(parents, k);
@@ -302,9 +307,21 @@ string Algorithms::isBipartite(Graph &graph) {
  * */
 
 string Algorithms::negativeCycle(Graph &graph) {
+    size_t vertices = graph.getVertices();
+    // add a new vertex to the graph and connect it to all the other vertices with weight 1 only from the new vertex
+    vector<vector<int>> newMatrix(vertices + 1, vector<int>(vertices + 1, 0));
+    for (size_t i = 0; i < vertices; i++) {
+        for (size_t j = 0; j < vertices; j++) {
+            newMatrix[i][j] = graph.getMatrix()[i][j];
+        }
+        newMatrix[vertices][i] = -1;
+    }
+
+    Graph newGraph;
+    newGraph.loadGraph(newMatrix);
     vector<int> parents;
     try {
-        parents = BellmanFord(graph, 0);
+        parents = BellmanFord(newGraph, newGraph.getVertices() - 1);
     } catch (negativeCycleException e) {
         string cycle = "The negative cycle is: ";
         for (int i = e.cycle.size() - 1; i >= 0; i--) {
